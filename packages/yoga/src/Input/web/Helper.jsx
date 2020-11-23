@@ -25,23 +25,29 @@ const Wrapper = styled.div`
 
 const Info = styled(Text.Small)`
   ${({
+    error,
     right,
     theme: {
       yoga: {
+        colors,
         components: { input },
       },
     },
   }) => `
-    color: ${input.helper.color};
+    color: ${error ? colors.negative[1] : input.helper.color};
     font-size: ${input.helper.font.size}px;
-    
+
     ${right ? 'margin-left: auto;' : ''}
-  `}
+    `}
 `;
 
 const Helper = ({ disabled, error, helper, maxLength, length }) => (
   <Wrapper disabled={disabled} error={error}>
-    {(error || helper) && <Info as="span">{error || helper}</Info>}
+    {(error || helper) && (
+      <Info as="span" error={error}>
+        {error || helper}
+      </Info>
+    )}
     {maxLength && (
       <Info as="span" right>
         {length}/{maxLength}
